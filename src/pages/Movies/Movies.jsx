@@ -1,8 +1,8 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 export const Movies = () => {
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
 
   const handleSearch = e => {
     e.preventDefault();
