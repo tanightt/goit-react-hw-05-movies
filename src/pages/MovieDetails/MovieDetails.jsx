@@ -1,21 +1,27 @@
-import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { BackBtn, Details, Genres, MovieCard } from './MovieDetails.styled';
 import { useHttp } from 'hooks/useHttp';
 import { fetchDetails } from 'services/api';
+import { Suspense } from 'react';
+import { RotatingLines } from 'react-loader-spinner';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
+  const location = useLocation();
   const { movieId } = useParams();
-  const navigate = useNavigate();
   const [movieItem] = useHttp(fetchDetails, movieId);
   const { poster_path, title, vote_average, overview, genres } = movieItem;
   const userScore = Math.ceil(vote_average * 10);
   return (
     <>
-      <BackBtn onClick={() => navigate('/')}>Go back</BackBtn>
+      {' '}
+      <Link to={location.state?.from ?? '/'}>
+        <BackBtn>Go back</BackBtn>
+      </Link>
       <MovieCard>
         <img
           src={poster_path && `https://image.tmdb.org/t/p/w300/${poster_path}`}
           alt={title}
+          width="300"
         />
         <div>
           <h2>{title}</h2>
@@ -35,15 +41,36 @@ export const MovieDetails = () => {
         <p>Additional information</p>
         <Details>
           <li>
-            <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+            <Link to={`/movies/${movieId}/cast`} state={{ ...location.state }}>
+              Cast
+            </Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+            <Link
+              to={`/movies/${movieId}/reviews`}
+              state={{ ...location.state }}
+            >
+              Reviews
+            </Link>
           </li>
         </Details>
       </div>
-
-      <Outlet />
+      <Suspense
+        fallback={
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        }
+      >
+        {' '}
+        <Outlet />
+      </Suspense>
     </>
   );
 };
+
+export default MovieDetails;

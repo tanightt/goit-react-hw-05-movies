@@ -2,7 +2,7 @@ import { useHttp } from 'hooks/useHttp';
 import { useParams } from 'react-router-dom';
 import { fetchReviews } from 'services/api';
 
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId } = useParams();
   const [authors] = useHttp(fetchReviews, movieId);
   const reviews = authors.results;
@@ -23,3 +23,5 @@ export const Reviews = () => {
     </ul>
   );
 };
+
+export default Reviews;

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchCredits } from 'services/api';
 import { ActorItem, ActorText, ActorTittle, ActorsList } from './Cast.styled';
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [actors] = useHttp(fetchCredits, movieId);
   const cast = actors.cast;
@@ -33,3 +33,5 @@ export const Cast = () => {
     </ActorsList>
   );
 };
+
+export default Cast;
