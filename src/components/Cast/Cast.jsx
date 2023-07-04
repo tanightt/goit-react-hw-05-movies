@@ -7,6 +7,11 @@ export const Cast = () => {
   const { movieId } = useParams();
   const [actors] = useHttp(fetchCredits, movieId);
   const cast = actors.cast;
+
+  if (!cast || cast.length === 0) {
+    return <p>We don't have any cast for this movie.</p>;
+  }
+
   return (
     <ActorsList>
       {cast?.map(act => (

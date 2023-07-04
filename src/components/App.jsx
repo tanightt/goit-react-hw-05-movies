@@ -3,8 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout/Layout';
 import { Movies } from 'pages/Movies/Movies';
 import { MovieDetails } from 'pages/MovieDetails/MovieDetails';
-import { Reviews } from 'pages/Reviews/Reviews';
-import { Cast } from 'pages/Cast/Cast';
+import { Reviews } from 'components/Reviews/Reviews';
+import { Cast } from 'components/Cast/Cast';
 
 export const App = () => {
   return (

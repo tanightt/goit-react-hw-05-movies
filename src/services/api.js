@@ -12,9 +12,11 @@ export const fetchMovieList = async () => {
   }
 };
 
-export const fetchSearchMovie = async () => {
+export const fetchSearchMovie = async value => {
   try {
-    const res = await axios.get(`search/movie?api_key=${API_KEY}`);
+    const res = await axios.get(
+      `search/movie?api_key=${API_KEY}&query=${value}&include_adult=false&language=en-US&page=1`
+    );
     return res.data;
   } catch (error) {
     console.error(error);
