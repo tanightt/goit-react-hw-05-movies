@@ -1,5 +1,11 @@
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { BackBtn, Details, Genres, MovieCard } from './MovieDetails.styled';
+import {
+  BackBtn,
+  Details,
+  Genres,
+  Info,
+  MovieCard,
+} from './MovieDetails.styled';
 import { useHttp } from 'hooks/useHttp';
 import { fetchDetails } from 'services/api';
 import { Suspense } from 'react';
@@ -9,6 +15,9 @@ const MovieDetails = () => {
   const location = useLocation();
   const { movieId } = useParams();
   const [movieItem] = useHttp(fetchDetails, movieId);
+  if (movieItem.length === 0) {
+    return;
+  }
   const { poster_path, title, vote_average, overview, genres } = movieItem;
   const userScore = Math.ceil(vote_average * 10);
   return (
@@ -19,7 +28,11 @@ const MovieDetails = () => {
       </Link>
       <MovieCard>
         <img
-          src={poster_path && `https://image.tmdb.org/t/p/w300/${poster_path}`}
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/w300/${poster_path}`
+              : `https://www.svgrepo.com/download/457475/img-load-box.svg`
+          }
           alt={title}
           width="300"
         />
@@ -38,7 +51,7 @@ const MovieDetails = () => {
         </div>
       </MovieCard>
       <div>
-        <p>Additional information</p>
+        <Info>Additional information</Info>
         <Details>
           <li>
             <Link to={`/movies/${movieId}/cast`} state={{ ...location.state }}>
